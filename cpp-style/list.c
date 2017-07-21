@@ -1,4 +1,5 @@
 #include "list.h"
+#include <assert.h>
 
 #define implFunc(ADT , func) (ADT ## _ ## func)
 #define bindFunc(ADT , func) \
@@ -51,18 +52,31 @@ List List_push_back(List self , ListElt elt){
 }
 
 List List_pop_front(List self){
-
+    assert(self->len == 0);
+    pNode del = self->head;
+    assnk(pNode , self->head , self->head->next);
+    if(self->head->next == NULL)
+        assnk(pNode , self->tail , NULL);
+    free(del);
+    assnk(unsigned int , self->len , self->len - 1);
+    return self;
 }
 
 List List_pop_back(List self){
-
+    assert(self->len == 0);
+    pNode del = self->head;
+    assnk(pNode , self->head , self->head->next);
+    if(self->head->next == NULL)
+        assnk(pNode , self->tail , NULL);
+    free(del);
+    assnk(unsigned int , self->len , self->len - 1);
 }
 
 List List_append(List self , List lst){
 
 }
 
-struct List klass = {
+const struct List klass = {
     .len = 0 ,
     .head = NULL ,
     .tail = NULL ,
@@ -79,7 +93,10 @@ struct List klass = {
     bindFunc(List , append)
 };
 
-List List_init(){
-    return (List)memcpy(malloc(sizeof(klass)) ,
-            &klass , sizeof(klass));
+List List_init(List self){
+    return (List)memcpy(self , &klass , sizeof(klass));
+}
+
+List List_new(){
+    return List_init(malloc(sizeof(klass)));
 }

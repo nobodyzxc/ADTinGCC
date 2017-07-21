@@ -3,7 +3,7 @@
 
 #define Elt(TYPE) TYPE *
 
-#define new(TYPE) TYPE ## _init()
+#define new(TYPE) TYPE ## _new()
 //#define init(TYPE) TYPE ## _init()
 
 #define newElt(TYPE , val) \
@@ -30,4 +30,4 @@ struct List{
 };
 
 /* constructor */
-List List_init();
+List List_new();
