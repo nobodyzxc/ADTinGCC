@@ -1,9 +1,12 @@
 /* compiler requirements
  *
  * gnu(typeof)
- *
+ * https://gcc.gnu.org/onlinedocs/gcc-5.3.0/gcc/Typeof.html
  * c11(_Generic)
+ * http://en.cppreference.com/w/c/language/generic
  *
+ * by the way , C has auto , too!
+ * __auto_type a = 1; (GNU C)
  * */
 
 #include "node.h"
@@ -30,7 +33,7 @@ unsigned int length(List self);
 
 /* macro:back get last elt with typecast */
 #define back(type , self) \
-    (*(type*) back(self))
+    (*(type*) last(self))
 
 /* manipulation prcedure
  *
@@ -60,7 +63,8 @@ unsigned int length(List self);
 
 /* if you cons or append a pointer
  * (most object are also pointers) ,
- * it would not malloc a new entity
+ * it will not malloc a new entity.
+ *
  * But if your elt is an array , list will malloc it.
  * so will the other data types.
  */

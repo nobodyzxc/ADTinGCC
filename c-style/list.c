@@ -88,5 +88,6 @@ List List_new(){
 void List_delete(List self){
     unsigned int i = length(self);
     while(i--) pop(self , 0);
+    self->head = self->tail = NULL;
     free(self);
 }
