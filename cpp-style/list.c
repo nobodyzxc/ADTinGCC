@@ -14,69 +14,62 @@ struct Node{
 };
 
 /* access functions */
-int List_empty(List self){
-    return self->head == NULL;
+int List_empty(pList this){
+    return this->head == NULL;
 }
 
-ListElt List_front(List self){
-    return self->head->elt;
+ListElt List_front(pList this){
+    return this->head->elt;
 }
 
-ListElt List_back(List self){
-    return self->tail->elt;
+ListElt List_back(pList this){
+    return this->tail->elt;
 }
 
-unsigned int List_length(List self){
-    return self->len;
+unsigned int List_length(pList this){
+    return this->len;
 }
 
 /* manipulation prcedure */
-List List_push_front(List self , ListElt elt){
-    assnk(unsigned int , self->len , self->len + 1);
+void List_push_front(pList this , ListElt elt){
+    assnk(unsigned int , this->len , this->len + 1);
     pNode node = malloc(sizeof(struct Node));
-    node->elt = elt , node->next = self->head;
-    assnk(pNode , self->head , node);
-    if(!self->tail)
-        assnk(pNode , self->tail , self->head);
-    return self;
+    node->elt = elt , node->next = this->head;
+    assnk(pNode , this->head , node);
+    if(!this->tail)
+        assnk(pNode , this->tail , this->head);
 }
 
-List List_push_back(List self , ListElt elt){
-    assnk(unsigned int , self->len , self->len + 1);
-    self->tail->next = malloc(sizeof(struct Node));
-    assnk(pNode , self->tail , self->tail->next);
-    self->tail->elt = elt , self->tail->next = NULL;
-    if(!self->head)
-        assnk(pNode , self->head , self->tail);
-    return self;
+void List_push_back(pList this , ListElt elt){
+    assnk(unsigned int , this->len , this->len + 1);
+    this->tail->next = malloc(sizeof(struct Node));
+    assnk(pNode , this->tail , this->tail->next);
+    this->tail->elt = elt , this->tail->next = NULL;
+    if(!this->head)
+        assnk(pNode , this->head , this->tail);
 }
 
-List List_pop_front(List self){
-    assert(self->len == 0);
-    pNode del = self->head;
-    assnk(pNode , self->head , self->head->next);
-    if(self->head->next == NULL)
-        assnk(pNode , self->tail , NULL);
+void List_pop_front(pList this){
+    assert(this->len != 0);
+    pNode del = this->head;
+    assnk(pNode , this->head , this->head->next);
+    if(this->head->next == NULL)
+        assnk(pNode , this->tail , NULL);
     free(del);
-    assnk(unsigned int , self->len , self->len - 1);
-    return self;
+    assnk(unsigned int , this->len , this->len - 1);
 }
 
-List List_pop_back(List self){
-    assert(self->len == 0);
-    pNode del = self->head;
-    assnk(pNode , self->head , self->head->next);
-    if(self->head->next == NULL)
-        assnk(pNode , self->tail , NULL);
+void List_pop_back(pList this){
+    assert(this->len != 0);
+    pNode del = this->head;
+    assnk(pNode , this->head , this->head->next);
+    if(this->head->next == NULL)
+        assnk(pNode , this->tail , NULL);
     free(del);
-    assnk(unsigned int , self->len , self->len - 1);
+    assnk(unsigned int , this->len , this->len - 1);
 }
 
-List List_append(List self , List lst){
-
-}
-
-const struct List klass = {
+const static struct List klass = {
     .len = 0 ,
     .head = NULL ,
     .tail = NULL ,
@@ -90,13 +83,12 @@ const struct List klass = {
     bindFunc(List , push_back) ,
     bindFunc(List , pop_front) ,
     bindFunc(List , pop_back) ,
-    bindFunc(List , append)
 };
 
-List List_init(List self){
-    return (List)memcpy(self , &klass , sizeof(klass));
+pList List_init(pList this){
+    return (pList)memcpy(this , &klass , sizeof(klass));
 }
 
-List List_new(){
+pList List_new(){
     return List_init(malloc(sizeof(klass)));
 }

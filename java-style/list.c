@@ -52,7 +52,7 @@ List List_push_back(List self , ListElt elt){
 }
 
 List List_pop_front(List self){
-    assert(self->len == 0);
+    assert(self->len != 0);
     pNode del = self->head;
     assnk(pNode , self->head , self->head->next);
     if(self->head->next == NULL)
@@ -63,7 +63,7 @@ List List_pop_front(List self){
 }
 
 List List_pop_back(List self){
-    assert(self->len == 0);
+    assert(self->len != 0);
     pNode del = self->head;
     assnk(pNode , self->head , self->head->next);
     if(self->head->next == NULL)

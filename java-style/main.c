@@ -1,7 +1,6 @@
 #include "list.h"
 #include <stdio.h>
 
-//#define @ ->
 int main(void){
     List ls = new(List);
     for(int i = 0 ; i < 10 ; i++)

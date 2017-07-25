@@ -4,30 +4,31 @@
 #define Elt(TYPE) TYPE *
 
 #define new(TYPE) TYPE ## _new()
-//#define init(TYPE) TYPE ## _init()
+#define init(TYPE , this) TYPE ## _init(this)
 
 #define newElt(TYPE , val) \
     memcpy(malloc(sizeof(TYPE)) , &(TYPE){val} , sizeof(TYPE))
 
+#define List(var) List var ; init(List , &var)
 typedef void *ListElt;
-typedef struct List *List;
 typedef struct Node *pNode;
+typedef struct List List , *pList;
 
 struct List{
     const unsigned int len;
     const pNode head , tail;
     /* access functions */
-    int (*const empty)(List self);
-    ListElt (*const front)(List self);
-    ListElt (*const back)(List self);
-    unsigned int (*const length)(List self);
+    int (*const empty)(pList this);
+    ListElt (*const front)(pList this);
+    ListElt (*const back)(pList this);
+    unsigned int (*const length)(pList this);
     /* manipulation prcedure */
-    List (*const push_front)(List self , ListElt elt);
-    List (*const push_back)(List self , ListElt elt);
-    List (*const pop_front)(List self);
-    List (*const pop_back)(List self);
-    List (*const append)(List self , List lst);
+    void (*const push_front)(pList this , ListElt elt);
+    void (*const push_back)(pList this , ListElt elt);
+    void (*const pop_front)(pList this);
+    void (*const pop_back)(pList this);
 };
 
 /* constructor */
-List List_new();
+pList List_new();
+pList List_init(pList);

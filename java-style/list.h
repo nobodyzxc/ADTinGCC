@@ -4,7 +4,6 @@
 #define Elt(TYPE) TYPE *
 
 #define new(TYPE) TYPE ## _new()
-//#define init(TYPE) TYPE ## _init()
 
 #define newElt(TYPE , val) \
     memcpy(malloc(sizeof(TYPE)) , &(TYPE){val} , sizeof(TYPE))
