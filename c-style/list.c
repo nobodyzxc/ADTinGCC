@@ -34,17 +34,19 @@ unsigned int length(List self){
  *
  * */
 
-List _cons(List self , Object elt , const char* type){
+List _cons(List self , Object elt ,
+        const char* type , size_t size){
     self->len = self->len + 1;
-    self->head = _Node_new(elt , self->head , type);
+    self->head = _Node_new(elt , self->head , type , size);
     if(!self->tail) self->tail = self->head;
     return self;
 }
 
-List _append(List self , Object elt , const char* type){
+List _append(List self , Object elt ,
+        const char* type , size_t size){
     self->len = self->len + 1;
     *(empty(self) ? &self->tail : getNextPtr(self->tail)) =
-        self->tail = _Node_new(elt , NULL , type);
+        self->tail = _Node_new(elt , NULL , type , size);
     if(!self->head) self->head = self->tail;
     return self;
 }
@@ -85,9 +87,28 @@ List List_new(){
     return List_init(malloc(sizeof(klass)));
 }
 
-void List_delete(List self){
+List List_copy(List inst){
+    List copy = List_new();
+    Node iter = inst->head;
+    while(iter)
+        _append(copy ,
+                memcpy(
+                    malloc(getSize(iter)) ,
+                    getObj(iter) ,
+                    getSize(iter)) ,
+                getType(iter) ,
+                getSize(iter)) ,
+        iter = getNext(iter);
+    return copy;
+}
+
+void List_clear(List self){
     unsigned int i = length(self);
     while(i--) pop(self , 0);
     self->head = self->tail = NULL;
+}
+
+void List_delete(List self){
+    List_clear(self);
     free(self);
 }

@@ -2,10 +2,14 @@
  *
  * gnu(typeof)
  * https://gcc.gnu.org/onlinedocs/gcc-5.3.0/gcc/Typeof.html
+ *
  * c11(_Generic)
  * http://en.cppreference.com/w/c/language/generic
  *
- * by the way , C has auto , too!
+ * Recursive macro
+ * https://github.com/swansontec/map-macro
+ *
+ * By the way , C has auto , too!
  * __auto_type a = 1; (GNU C)
  * */
 
@@ -14,13 +18,20 @@
 #include <string.h>
 typedef struct List *List;
 
-/* constructor */
+/* constructor
+ * you can call it by using new(List)
+ * */
+
 List List_new();
 
-/* destructor */
-void List_delete();
+List List_copy(List inst);
 
-/* access functions(macro) */
+/* destructor
+ * you can call it by using delete(instantiate)
+ * */
+void List_delete(List self);
+
+/* access functions(macros) */
 int empty(List self);
 /* get first elt without typecast */
 Object head(List self);
@@ -49,7 +60,7 @@ unsigned int length(List self);
  *     its actaul type will be an array ,
  *     but getType will show [char*] ,
  *     (because two "same" compound literal
- *                      show different address)
+ *                  show different address)
  *
  *     if you apply elt(char * , ...)
  *     and try to print it as a string ,
@@ -70,15 +81,20 @@ unsigned int length(List self);
  */
 
 #define cons(self , elt) \
-    _cons(self , newElt(elt) , typename(elt))
+    _cons(self , newElt(elt) , typename(elt) , sizeof(elt))
 
 #define append(self ,elt) \
-    _append(self , newElt(elt) , typename(elt))
+    _append(self , newElt(elt) , typename(elt) , sizeof(elt))
 
 List pop(List self , int idx);
 
 List map(List self , void (*fp)(Node node));
 
+void List_clear(List self);
+
 /* In most case , use macro above */
-List _cons(List self , Object elt , const char* type);
-List _append(List self , Object elt , const char* type);
+List _cons(List self , Object elt ,
+        const char* type , size_t size);
+
+List _append(List self , Object elt ,
+        const char* type , size_t size);

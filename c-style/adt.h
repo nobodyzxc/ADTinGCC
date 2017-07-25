@@ -6,9 +6,18 @@ typedef void *Object;
 
 #define new(ADT) ADT ## _new()
 
+#define copy(ADT) _Generic((ADT), \
+    List: List_copy \
+    )(ADT)
+
 #define delete(ADT) _Generic((ADT), \
     List: List_delete \
     )(ADT)
+
+#define clear(ADT) _Generic((ADT), \
+    List: List_clear \
+    )(ADT)
+
 
 /* accept var only */
 #define isVarAnArray(x) ((void*)(long)&(x) == (void*)(long)(x))

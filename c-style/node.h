@@ -69,16 +69,20 @@ const char* getType(Node node);
  *
  * */
 #define Node_new(elt , next) \
-    _Node_new(elt , next , typename(elt))
+    _Node_new(elt , next , typename(elt) , sizeof(elt))
 
 
 /* get the element of the node without typecast */
-Object getObj(Node node);
+Object getObj(Node self);
 
 /* get next node */
-Node getNext(Node node);
+Node getNext(Node self);
 
 /* get address of node's member pointer stored next node */
-Node* getNextPtr(Node node);
+Node* getNextPtr(Node self);
 
-Node _Node_new(Object elt , Node next , const char* type);
+/* get size of node's elt */
+size_t getSize(Node self);
+
+Node _Node_new(Object elt , Node next ,
+        const char* type , size_t size);
