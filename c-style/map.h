@@ -64,6 +64,20 @@
 /**
  * Applies the function macro `f` to each of the remaining parameters.
  */
-#define MAP(f, ...) EVAL(MAP1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
+#include "macfun.h"
+//#define MAP(f, ...) EVAL(MAP1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
+#define MAP(f , unpak , ...) \
+    ASSOCMAP(f , unpak , SNOCEND(__VA_ARGS__))
 
+//#define MAP(f , ...)
+//    ASSOCMAP(f , SNOCEND(__VA_ARGS__))
+//    failed
+
+#define ASSOCMAP(f , ...) \
+    EVAL(MAP1(f, __VA_ARGS__ , ()()(), ()()(), ()()(), 0))
+
+#define ASSOCMAE(a , b ,c , d , ...) \
+    a ; b ; c ; d ; __VA_ARGS__
+
+#define ASSOCMAF(a , b , c)   a; b; c;
 #endif

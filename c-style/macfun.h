@@ -1,10 +1,9 @@
-#include "map.h"
 
 #define CDR(h , ...) __VA_ARGS__
 
 #define CAR(h , ...) h
 
-#define CONS(e , ...) e , ##__VA_ARGS__
+#define CONS(e , ...) e , ## __VA_ARGS__
 
 #define SNOC(e , ...) \
     SNOCCDR(e , CONS(H , ## __VA_ARGS__))
