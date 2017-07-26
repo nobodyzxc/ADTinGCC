@@ -52,12 +52,11 @@
  *
  * begin{
  * */
-#define assoc(x) newElt(x) , typename(x) , sizeof(x)
 
-#define MAP0(f, e, peek, ...) \
-    f(MAP_NEXT(peek, MAP1)(f, peek, __VA_ARGS__) , assoc(e))
-#define MAP1(f, e , peek , ...) \
-    MAP_NEXT(peek, MAP0)(f, e , peek, __VA_ARGS__)
+#define MAP0(f, unpak , e, peek, ...) \
+    f(MAP_NEXT(peek, MAP1)(f, unpak , peek, __VA_ARGS__) , unpak(e))
+#define MAP1(f, unpak , e , peek , ...) \
+    MAP_NEXT(peek, MAP0)(f, unpak , e , peek, __VA_ARGS__)
 /*
  * }end
  * */

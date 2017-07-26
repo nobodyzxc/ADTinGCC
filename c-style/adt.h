@@ -8,15 +8,21 @@ typedef void *Object;
 
 #define copy(ADT) _Generic((ADT), \
     List: List_copy \
+    /* default: copy  \ */ \
     )(ADT)
+/* define you own copy */
 
 #define delete(ADT) _Generic((ADT), \
     List: List_delete \
+    /* default: delete  \ */ \
     )(ADT)
+/* define you own delete */
 
 #define clear(ADT) _Generic((ADT), \
     List: List_clear \
+    /* default: clear  \ */ \
     )(ADT)
+/* define you own clear */
 
 
 /* accept var only */
@@ -58,10 +64,19 @@ char _typeisa[25];
 
 #define LIT(x) (typeof(x)){x}
 
-#define newElt(val) \
+#define newElt(e) \
     memcpy( \
-            malloc(sizeof(val)) , \
-            &(val) , \
-            sizeof(val) \
+            malloc(sizeof(e)) , \
+            &(e) , \
+            sizeof(e) \
             )
+
+/* eltArgs :
+ * Object elt , const char* type , size_t size)
+ * (new entity , entity datatype , entity datasize)
+ * */
+
+#define eltArgs(x) \
+    newElt(x) , typename(x) , sizeof(x)
+
 #endif

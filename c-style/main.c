@@ -1,6 +1,5 @@
 #include "adt.h"
 #include "list.h"
-#include "macro.h"
 #include <stdio.h>
 
 void print_p(Node node){
@@ -9,6 +8,7 @@ void print_p(Node node){
     puts("");
 }
 
+/* high order function for map */
 void print(Node node){
     printf("node type is a %s => " , getType(node));
     if(isChar(node)){
@@ -36,8 +36,7 @@ void print(Node node){
 int main(void){
     int a[10] = {1 , 2 , 3 , 4 , 5};
     char ch = 'c';
-    List ls = NULL;
-    ls = List(LIT(1) , LIT('b') , ch , "cdef" , a);
+    List ls = List(LIT(1) , LIT('b') , ch , "cdef" , a);
     push(ls , ls);
 
     printf("ls's address is %p\n" , ls);

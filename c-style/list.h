@@ -14,6 +14,8 @@
  * */
 
 #include "node.h"
+#include "macfun.h"
+
 #include <stdlib.h>
 #include <string.h>
 typedef struct List *List;
@@ -25,6 +27,11 @@ typedef struct List *List;
 List List_new();
 
 List List_copy(List inst);
+
+#define List_END(...) \
+    MAP(_cons , eltArgs , __VA_ARGS__)
+
+#define List(...) List_END(SNOCEND(__VA_ARGS__))
 
 /* destructor
  * you can call it by using delete(instantiate)
@@ -81,10 +88,10 @@ unsigned int length(List self);
  */
 
 #define cons(self , elt) \
-    _cons(self , newElt(elt) , typename(elt) , sizeof(elt))
+    _cons(self , eltArgs(elt))
 
 #define push(self ,elt) \
-    _push(self , newElt(elt) , typename(elt) , sizeof(elt))
+    _push(self , eltArgs(elt))
 
 List pop(List self , int idx);
 
