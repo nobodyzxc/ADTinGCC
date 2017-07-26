@@ -37,7 +37,7 @@
 #define EVAL4(...) EVAL3(EVAL3(EVAL3(__VA_ARGS__)))
 #define EVAL(...)  EVAL4(EVAL4(EVAL4(__VA_ARGS__)))
 
-#define MAP_END(...) List_new()
+#define MAP_END(...) CAR(__VA_ARGS__) /* init cond */
 #define MAP_OUT
 #define MAP_COMMA ,
 
@@ -53,31 +53,27 @@
  * begin{
  * */
 
-#define MAP0(f, unpak , e, peek, ...) \
-    f(MAP_NEXT(peek, MAP1)(f, unpak , peek, __VA_ARGS__) , unpak(e))
-#define MAP1(f, unpak , e , peek , ...) \
-    MAP_NEXT(peek, MAP0)(f, unpak , e , peek, __VA_ARGS__)
-/*
- * }end
- * */
+#define MAP0(initCond , f, unpak , e, peek, ...) \
+    f(MAP_NEXT(peek, MAP1)(initCond , f, unpak , peek, __VA_ARGS__) , unpak(e))
+#define MAP1(initCond , f, unpak , e , peek , ...) \
+    MAP_NEXT(peek, MAP0)(initCond , f, unpak , e , peek, __VA_ARGS__)
 
 /**
  * Applies the function macro `f` to each of the remaining parameters.
  */
-#include "macfun.h"
-//#define MAP(f, ...) EVAL(MAP1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
-#define MAP(f , unpak , ...) \
-    ASSOCMAP(f , unpak , SNOCEND(__VA_ARGS__))
+#include "maclisp.h"
 
-//#define MAP(f , ...)
-//    ASSOCMAP(f , SNOCEND(__VA_ARGS__))
-//    failed
+#define MAP(initCond , f , unpak , ...) \
+    ASSOCMAP(initCond , f , unpak , SNOCEND(__VA_ARGS__))
 
-#define ASSOCMAP(f , ...) \
-    EVAL(MAP1(f, __VA_ARGS__ , ()()(), ()()(), ()()(), 0))
+/* why the def does not work? */
+//#define MAP(...)  \
+    ASSOCMAP(SNOCEND(__VA_ARGS__))
 
-#define ASSOCMAE(a , b ,c , d , ...) \
-    a ; b ; c ; d ; __VA_ARGS__
+#define ASSOCMAP(initCond , f , ...) \
+    EVAL(MAP1(initCond , f, __VA_ARGS__ , ()()(), ()()(), ()()(), 0))
 
-#define ASSOCMAF(a , b , c)   a; b; c;
+/*
+ * }end : modified by nobodyzxc :)
+ * */
 #endif

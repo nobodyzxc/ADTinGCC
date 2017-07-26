@@ -3,7 +3,6 @@
 
 typedef void *Object;
 
-
 #define new(ADT) ADT ## _new()
 
 #define copy(ADT) _Generic((ADT), \

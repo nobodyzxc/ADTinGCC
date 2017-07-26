@@ -14,7 +14,7 @@
  * */
 
 #include "node.h"
-#include "map.h"
+#include "macmap.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -28,12 +28,10 @@ List List_new();
 
 List List_copy(List inst);
 
-//#define List_END(...) \
-//    MAP(_cons , eltArgs , __VA_ARGS__)
-
-//#define List(...) List_END(SNOCEND(__VA_ARGS__))
+/* powerful(?) List constructor */
 #define List(...) \
-    MAP(_cons , eltArgs , __VA_ARGS__)
+    MAP(List_new() , _cons , eltArgs , __VA_ARGS__)
+
 /* destructor
  * you can call it by using delete(instantiate)
  * */
