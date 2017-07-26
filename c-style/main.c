@@ -21,7 +21,8 @@ void print(Node node){
     else if(isInt(node)){
         if(isArray(node)){
             for(int i = 0 ; i < 5 ; i++)
-                printf("%d " , arr(int , node)[i]);
+                /* try obj macro instead of arr here , get warning */
+                printf("%d " , obj(int , node)[i]);
             puts("");
         }
         else{

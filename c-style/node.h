@@ -20,6 +20,17 @@ typedef struct Node *Node;
 #define arr(type , node) \
     ((type*)getObj(node))
 
+/* cast Element and Array automatically
+ * but it will lead ambiguity.
+ * ex: obj(int , node)
+ *         -> Is it an int Array or int Element ?
+ * and it would give some warnings like
+ *  warning: pointer/integer type mismatch in conditionalexpression
+ * */
+
+#define obj(type , node) \
+    (isArray(node) ? arr(type , node) : elt(type , node))
+
 /* function:getType
  * return the type of node's elt
  * strings of type def is in adt.h
@@ -27,7 +38,7 @@ typedef struct Node *Node;
 
 const char* getType(Node node);
 
-/* some macro to check type of elt in node
+/* some macros to check type of elt in node
  * */
 
 #define isBool(node) \
