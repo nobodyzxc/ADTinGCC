@@ -1,5 +1,4 @@
 #include "adt.h"
-#include <string.h>
 
 typedef struct Node *Node;
 

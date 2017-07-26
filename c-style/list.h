@@ -16,8 +16,6 @@
 #include "node.h"
 #include "macmap.h"
 
-#include <stdlib.h>
-#include <string.h>
 typedef struct List *List;
 
 /* constructor
@@ -30,7 +28,7 @@ List List_copy(List inst);
 
 /* powerful(?) List constructor */
 #define List(...) \
-    MAP(List_new() , _cons , eltArgs , __VA_ARGS__)
+    MAP(List_new() , _cons , objArgs , __VA_ARGS__)
 
 /* destructor
  * you can call it by using delete(instantiate)
@@ -54,7 +52,7 @@ unsigned int length(List self);
 
 /* manipulation prcedure
  *
- *     if you want to cons or push a literal value ,
+ *     if you want to cons or snoc a literal value ,
  *     you must use LIT macro
  *     to assign literal (char , int type) to variable.
  *
@@ -78,7 +76,7 @@ unsigned int length(List self);
  *     so you should avoid use LIT on "literal string"
  * */
 
-/* if you cons or push a pointer
+/* if you cons or snoc a pointer
  * (most object are also pointers) ,
  * it will not malloc a new entity.
  *
@@ -87,10 +85,10 @@ unsigned int length(List self);
  */
 
 #define cons(self , elt) \
-    _cons(self , eltArgs(elt))
+    _cons(self , objArgs(elt))
 
-#define push(self ,elt) \
-    _push(self , eltArgs(elt))
+#define snoc(self ,elt) \
+    _snoc(self , objArgs(elt))
 
 List pop(List self , int idx);
 
@@ -102,5 +100,5 @@ void List_clear(List self);
 List _cons(List self , Object elt ,
         const char* type , size_t size);
 
-List _push(List self , Object elt ,
+List _snoc(List self , Object elt ,
         const char* type , size_t size);

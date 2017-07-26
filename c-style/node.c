@@ -1,5 +1,4 @@
 #include "node.h"
-#include <stdlib.h>
 
 struct Node{
     Object elt;

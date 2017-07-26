@@ -1,6 +1,10 @@
 #ifndef ADT_H
 #define ADT_H
 
+#include <stddef.h> /* for size_t */
+#include <stdlib.h> /* for malloc */
+#include <string.h> /* for strstr */
+
 typedef void *Object;
 
 #define new(ADT) ADT ## _new()
@@ -63,19 +67,19 @@ char _typeisa[25];
 
 #define LIT(x) (typeof(x)){x}
 
-#define newElt(e) \
+#define newObj(e) \
     memcpy( \
             malloc(sizeof(e)) , \
             &(e) , \
             sizeof(e) \
             )
 
-/* eltArgs :
- * Object elt , const char* type , size_t size)
+/* objArgs :
+ * Object obj , const char* type , size_t size
  * (new entity , entity datatype , entity datasize)
  * */
 
-#define eltArgs(x) \
-    newElt(x) , typename(x) , sizeof(x)
+#define objArgs(x) \
+    newObj(x) , typename(x) , sizeof(x)
 
 #endif

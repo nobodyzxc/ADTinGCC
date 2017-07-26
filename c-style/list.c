@@ -42,7 +42,7 @@ List _cons(List self , Object elt ,
     return self;
 }
 
-List _push(List self , Object elt ,
+List _snoc(List self , Object elt ,
         const char* type , size_t size){
     self->len = self->len + 1;
     *(empty(self) ? &self->tail : getNextPtr(self->tail)) =
@@ -91,7 +91,7 @@ List List_copy(List inst){
     List copy = List_new();
     Node iter = inst->head;
     while(iter)
-        _push(copy ,
+        _snoc(copy ,
                 memcpy(
                     malloc(getSize(iter)) ,
                     getObj(iter) ,

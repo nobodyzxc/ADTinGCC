@@ -1,4 +1,3 @@
-#include "adt.h"
 #include "list.h"
 #include <stdio.h>
 
@@ -39,19 +38,19 @@ int main(void){
     printf("ls's address is %p\n" , ls);
     puts("");
     printf("ls's len is %d\n" , length(ls));
-    push(ls , LIT(1));
-    push(ls , LIT('b')); /* literal char treats as int */
-    push(ls , ch);
-    push(ls , "cdef");
-    push(ls , a);
-    push(ls , ls);
+    snoc(ls , LIT(1));
+    snoc(ls , LIT('b')); /* literal char treats as int */
+    snoc(ls , ch);
+    snoc(ls , "cdef");
+    snoc(ls , a);
+    snoc(ls , ls);
     map(ls , print);
     printf("ls's len is %d\n" , length(ls));
 
-    puts("\npushed self's test");
-    List pushed = back(List , ls);
+    puts("\nsnoced self's test");
+    List snoced = back(List , ls);
     //List cp = *(List*)last(ls);
-    map(pushed , print);
+    map(snoced , print);
     //map(back(List , ls) , print);
 
     puts("\npop ls @ -2\n");
@@ -59,7 +58,7 @@ int main(void){
     puts("ls remap print");
     map(ls , print);
     puts("");
-    puts("pushed self remap print");
+    puts("snoced self remap print");
     map(back(List , ls) , print);
 
     puts("\ncopy list test");
