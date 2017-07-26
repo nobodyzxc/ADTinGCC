@@ -39,12 +39,12 @@ int main(void){
     printf("ls's address is %p\n" , ls);
     puts("");
     printf("ls's len is %d\n" , length(ls));
-    append(ls , LIT(1));
-    append(ls , LIT('b')); /* literal char treats as int */
-    append(ls , ch);
-    append(ls , "cdef");
-    append(ls , a);
-    append(ls , ls);
+    push(ls , LIT(1));
+    push(ls , LIT('b')); /* literal char treats as int */
+    push(ls , ch);
+    push(ls , "cdef");
+    push(ls , a);
+    push(ls , ls);
     map(ls , print);
     printf("ls's len is %d\n" , length(ls));
 

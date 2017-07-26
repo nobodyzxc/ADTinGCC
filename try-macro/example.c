@@ -13,14 +13,28 @@
 
 /* Test `MAP` with parentheses in the arguments: */
 #define CALL(x) putchar x;
-MAP(append, LIT('a'), LIT('b'), LIT('c'))
 
-#define List(...) \
-    MAP(append , __VA_ARGS__)
-List("a" , "b" , "c" ,  "d")
+#define CDR(f , ...) __VA_ARGS__
+#define CAR(f , ...) f
+#define CONS(e , ...) e , ##__VA_ARGS__
+#define SNOC(e , ...) \
+    SNOCCDR(e , CONS(H , ## __VA_ARGS__))
+#define SNOCCDR(last , ...) CDR(__VA_ARGS__, last)
+#define SNOCEND(...) \
+    SNOCCDR(END , CONS(H ,  ## __VA_ARGS__))
 
+
+
+#define List_END(...) \
+    MAP(_cons , __VA_ARGS__)
+
+#define List(...) List_END(SNOCEND(__VA_ARGS__))
+List(5 , 4 , 3 , 2 , 1)
+List(4 , 3 , 2 , 1)
+List(3 , 2 , 1)
+List(2 , 1)
+List(1)
+List()
 
 /* Test `MAP_LIST` with parentheses in the arguments: */
 #define CALL_LIST(x) putchar x
-//MAP_LIST(CALL_LIST, ('a'), ('b'), ('c'));
-//MAP_LIST(CALL_LIST, ('a'), ('b'), ('c'), ('d'), ('a'), ('b'), ('c'), ('d'), ('a'), ('b'), ('c'), ('d'));

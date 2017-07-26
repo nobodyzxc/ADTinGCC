@@ -48,7 +48,7 @@ unsigned int length(List self);
 
 /* manipulation prcedure
  *
- *     if you want to cons or append a literal value ,
+ *     if you want to cons or push a literal value ,
  *     you must use LIT macro
  *     to assign literal (char , int type) to variable.
  *
@@ -72,7 +72,7 @@ unsigned int length(List self);
  *     so you should avoid use LIT on "literal string"
  * */
 
-/* if you cons or append a pointer
+/* if you cons or push a pointer
  * (most object are also pointers) ,
  * it will not malloc a new entity.
  *
@@ -83,8 +83,8 @@ unsigned int length(List self);
 #define cons(self , elt) \
     _cons(self , newElt(elt) , typename(elt) , sizeof(elt))
 
-#define append(self ,elt) \
-    _append(self , newElt(elt) , typename(elt) , sizeof(elt))
+#define push(self ,elt) \
+    _push(self , newElt(elt) , typename(elt) , sizeof(elt))
 
 List pop(List self , int idx);
 
@@ -96,5 +96,5 @@ void List_clear(List self);
 List _cons(List self , Object elt ,
         const char* type , size_t size);
 
-List _append(List self , Object elt ,
+List _push(List self , Object elt ,
         const char* type , size_t size);

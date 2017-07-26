@@ -25,6 +25,7 @@
  * promote the sale, use or other dealings in this Software without
  * prior written authorization from the authors.
  */
+/* clone from: https://github.com/swansontec/map-macro */
 
 #ifndef MAP_H_INCLUDED
 #define MAP_H_INCLUDED
@@ -47,37 +48,23 @@
 #define MAP_NEXT1(test, next) MAP_NEXT0(test, next, 0)
 #define MAP_NEXT(test, next)  MAP_NEXT1(MAP_GET_END test, next)
 
-/* my def */
+/* revised to onion-like expansion
+ *
+ * begin{
+ * */
 #define assoc(x) newElt(x) , typename(x) , sizeof(x)
-/* my def */
-#if 0
-#define MAP0(f, x, peek, ...) \
-    f(MAP_NEXT(peek, MAP1)(f, peek, __VA_ARGS__) , x)
 
-#define MAP1(f, x, peek, ...) \
-    f(MAP_NEXT(peek, MAP0)(f, peek, __VA_ARGS__) , x)
-#else
-#define MAP0(f, x, peek, ...) \
-    f(MAP_NEXT(peek, MAP1)(f, peek, __VA_ARGS__) , assoc(x))
-#define MAP1(f, x , peek , ...) \
-    MAP_NEXT(peek, MAP0)(f, x , peek, __VA_ARGS__)
-#endif
-
-#define MAP_LIST_NEXT1(test, next) MAP_NEXT0(test, MAP_COMMA next, 0)
-#define MAP_LIST_NEXT(test, next)  MAP_LIST_NEXT1(MAP_GET_END test, next)
-
-#define MAP_LIST0(f, x, peek, ...) f(MAP_LIST_NEXT(peek, MAP_LIST1)(f, peek, __VA_ARGS__) , x)
-#define MAP_LIST1(f, x, peek, ...) f(MAP_LIST_NEXT(peek, MAP_LIST0)(f, peek, __VA_ARGS__) , x)
+#define MAP0(f, e, peek, ...) \
+    f(MAP_NEXT(peek, MAP1)(f, peek, __VA_ARGS__) , assoc(e))
+#define MAP1(f, e , peek , ...) \
+    MAP_NEXT(peek, MAP0)(f, e , peek, __VA_ARGS__)
+/*
+ * }end
+ * */
 
 /**
  * Applies the function macro `f` to each of the remaining parameters.
  */
 #define MAP(f, ...) EVAL(MAP1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
-
-/**
- * Applies the function macro `f` to each of the remaining parameters and
- * inserts commas between the results.
- */
-#define MAP_LIST(f, ...) EVAL(MAP_LIST1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
 
 #endif

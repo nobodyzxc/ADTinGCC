@@ -1,5 +1,6 @@
 #include "adt.h"
 #include "list.h"
+#include "macro.h"
 #include <stdio.h>
 
 void print_p(Node node){
@@ -35,19 +36,13 @@ void print(Node node){
 int main(void){
     int a[10] = {1 , 2 , 3 , 4 , 5};
     char ch = 'c';
-    List ls = new(List);
+    List ls = NULL;
+    ls = List(LIT(1) , LIT('b') , ch , "cdef" , a);
+    push(ls , ls);
+
     printf("ls's address is %p\n" , ls);
-    puts("");
-    printf("ls's len is %d\n" , length(ls));
-    append(ls , LIT(1));
-    append(ls , LIT('b')); /* literal char treats as int */
-    append(ls , ch);
-    append(ls , "cdef");
-    append(ls , a);
-    append(ls , ls);
     map(ls , print);
     printf("ls's len is %d\n" , length(ls));
-
     puts("\npushed self's test");
     List pushed = back(List , ls);
     //List cp = *(List*)last(ls);
