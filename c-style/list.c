@@ -16,15 +16,39 @@ int empty(List self){
     return self->head == NULL;
 }
 
-Object head(List self){
-/*    assert(!empty(self) && "calling head on an empty list"); */
+Object car(List self){
+/*    assert(!empty(self) && "calling car on an empty list"); */
     return getObj(self->head);
 }
 
-Object last(List self){
+Object rac(List self){
 /*    assert(!empty(self) && "calling last on an empty list"); */
     return getObj(self->tail);
 }
+
+List cdr(List self){
+    List rtn = List_new();
+    if(empty(self)) return rtn;
+    rtn->len = self->len - 1;
+    rtn->tail = self->tail;
+    rtn->head = getNext(self->head);
+    return rtn;
+}
+
+Object nth(List self , int idx){
+    if(idx < 0) idx += self->len;
+    assert(idx < self->len);
+    assert(self->len != 0);
+    Node iter = self->head;
+    while(idx--)
+        iter = getNext(iter);
+    return iter;
+}
+
+//List append(List self , List tail){
+//    if(empty(tail)) return self;
+//    else return cons(append(cdr(self) , tail) , car(self));
+//}
 
 unsigned int length(List self){
     return self->len;
@@ -55,7 +79,7 @@ List pop(List self , int idx){
     if(idx < 0) idx += self->len;
     assert(idx < self->len);
     assert(self->len != 0);
-    self->len = self->len - 1;
+    self->len -= 1;
     Node *ppn = &self->head;
     while(idx--)
         ppn = getNextPtr(*ppn);

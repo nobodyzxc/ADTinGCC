@@ -1,3 +1,6 @@
+#ifndef MACLSIP_H
+#define MACLSIP_H
+
 #define CDR(h , ...) __VA_ARGS__
 
 #define CAR(h , ...) h
@@ -11,3 +14,5 @@
 
 #define SNOCEND(...) \
     SNOCCDR(END , CONS(H ,  ## __VA_ARGS__))
+
+#endif

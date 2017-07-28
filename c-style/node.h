@@ -1,3 +1,6 @@
+#ifndef NODE_H
+#define NODE_H
+
 #include "adt.h"
 
 typedef struct Node *Node;
@@ -42,36 +45,36 @@ const char* getType(Node node);
  * */
 
 #define isBool(node) \
-    strstr(getType(node) , "bool")
+    ((int)strstr(getType(node) , "bool"))
 
 #define isChar(node) \
-    strstr(getType(node) , "char")
+    (NULL != strstr(getType(node) , "char"))
 
 #define isInt(node) \
-    strstr(getType(node) , "int")
+    (NULL != strstr(getType(node) , "int"))
 
 /* long long is also a long */
 #define isLong(node) \
-    strstr(getType(node) , "long")
+    (NULL != strstr(getType(node) , "long"))
 
 /* but long is not a long long */
 #define isLongLong(node) \
-    strstr(getType(node) , "long long")
+    (NULL != strstr(getType(node) , "long long"))
 
 #define isUnsigned(node) \
-    strstr(getType(node) , "unsigned")
+    (NULL != strstr(getType(node) , "unsigned"))
 
 #define isFloat(node) \
-    strstr(getType(node) , "float")
+    (NULL != strstr(getType(node) , "float"))
 
 #define isDouble(node) \
-    strstr(getType(node) , "double")
+    (NULL != strstr(getType(node) , "double"))
 
 #define isPointer(node) \
-    strstr(getType(node) , "*")
+    (NULL != strstr(getType(node) , "*"))
 
 #define isArray(node) \
-    strstr(getType(node) , "[]")
+    (NULL != strstr(getType(node) , "[]"))
 
 /* macro usage:
  *
@@ -96,3 +99,5 @@ size_t getSize(Node self);
 
 Node _Node_new(Object elt , Node next ,
         const char* type , size_t size);
+
+#endif

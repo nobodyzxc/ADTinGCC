@@ -1,13 +1,7 @@
-#include "list.h"
+#include "../list.h"
 #include <stdio.h>
 
-void print_p(Node node){
-    for(int i = 0 ; i < 4 ; i++)
-        printf("%d " , elt(int* , node)[i]);
-    puts("");
-}
-
-/* high order function for map */
+/* higher order function for map */
 void print(Node node){
     printf("node type is a %s => " , getType(node));
     if(isChar(node)){
@@ -21,8 +15,8 @@ void print(Node node){
     else if(isInt(node)){
         if(isArray(node)){
             for(int i = 0 ; i < 5 ; i++)
-                /* try obj macro instead of arr here , get warning */
-                printf("%d " , obj(int , node)[i]);
+                /* try obj macro instead of arr here you will get a warning */
+                printf("%d " , arr(int , node)[i]);
             puts("");
         }
         else{
@@ -36,7 +30,7 @@ void print(Node node){
 int main(void){
     int a[10] = {1 , 2 , 3 , 4 , 5};
     char ch = 'c';
-    List ls = List(LIT(1) , LIT('b') , ch , "cdef" , a);
+    List ls = List(LITN(1) , LITN('b') , ch , "cdef" , a);
     snoc(ls , ls);
 
     printf("ls's address is %p\n" , ls);
@@ -44,9 +38,7 @@ int main(void){
     printf("ls's len is %d\n" , length(ls));
     puts("\nsnoced self's test");
     List snoced = back(List , ls);
-    //List cp = *(List*)last(ls);
     map(snoced , print);
-    //map(back(List , ls) , print);
 
     puts("\npop ls @ -2\n");
     pop(ls , -2);

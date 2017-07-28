@@ -65,7 +65,10 @@ char _typeisa[25];
                     strcpy(_typeisa , #x " is a ") , \
                     typename(x))
 
-#define LIT(x) (typeof(x)){x}
+/* literal of number */
+#define LITN(x) (typeof(x)){x}
+/* literal of character */
+#define LITC(x) (char){x}
 
 #define newObj(e) \
     memcpy( \

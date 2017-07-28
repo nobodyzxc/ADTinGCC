@@ -13,6 +13,9 @@
  * __auto_type a = 1; (GNU C)
  * */
 
+#ifndef LIST_H
+#define LIST_H
+
 #include "node.h"
 #include "macmap.h"
 
@@ -30,6 +33,9 @@ List List_copy(List inst);
 #define List(...) \
     MAP(List_new() , _cons , objArgs , __VA_ARGS__)
 
+#define cdrL(inst) \
+    pop(List_copy(inst) , 0)
+
 /* destructor
  * you can call it by using delete(instantiate)
  * */
@@ -37,30 +43,40 @@ void List_delete(List self);
 
 /* access functions(macros) */
 int empty(List self);
-/* get first elt without typecast */
-Object head(List self);
-/* get last elt without typecast */
-Object last(List self);
-unsigned int length(List self);
-/* macro:front get first elt with typecast */
-#define front(type , self) \
-    (*(type*) head(self))
+/* get first obj without typecast */
+Object car(List self);
+/* get last obj without typecast */
+Object rac(List self);
+/* get nth obj without typecast */
+Object nth(List self , int idx);
+/* get list without the list's head
+ * (without allocting new node)
+ * but remember to free the list
+ * */
 
-/* macro:back get last elt with typecast */
+List cdr(List self);
+
+/* get length of the list */
+unsigned int length(List self);
+/* macro:front get first obj with typecast */
+#define front(type , self) \
+    (*(type*) car(self))
+
+/* macro:back get last obj with typecast */
 #define back(type , self) \
-    (*(type*) last(self))
+    (*(type*) rac(self))
 
 /* manipulation prcedure
  *
  *     if you want to cons or snoc a literal value ,
- *     you must use LIT macro
+ *     you must use LIT* macro
  *     to assign literal (char , int type) to variable.
  *
- *     But "a literl char[]" do not need LIT macro
+ *     But "a literl char[]" do not need LIT* macro
  *     It's a char[]. it has its own address ,
- *     so user shouldn't use LIT on it.
+ *     so user shouldn't use LIT* on it.
  *
- *     if you use LIT on "string literal" ,
+ *     if you use LIT* on "string literal" ,
  *     its actaul type will be an array ,
  *     but getType will show [char*] ,
  *     (because two "same" compound literal
@@ -73,14 +89,14 @@ unsigned int length(List self);
  *     instead , you should apply arr(char , ...) on it.
  *     but it is confusing that apply arr on [char*] type.
  *
- *     so you should avoid use LIT on "literal string"
+ *     so you should avoid use LIT* on "literal string"
  * */
 
 /* if you cons or snoc a pointer
  * (most object are also pointers) ,
  * it will not malloc a new entity.
  *
- * But if your elt is an array , list will malloc it.
+ * But if your obj is an array , list will malloc it.
  * so will the other data types.
  */
 
@@ -102,3 +118,5 @@ List _cons(List self , Object elt ,
 
 List _snoc(List self , Object elt ,
         const char* type , size_t size);
+
+#endif
