@@ -31,7 +31,7 @@ List List_copy(List inst);
 
 /* powerful(?) List constructor */
 #define List(...) \
-    MAP(List_new() , _cons , objArgs , __VA_ARGS__)
+    MAP(List_new() , _push_front , objArgs , __VA_ARGS__)
 
 #define cdrL(inst) \
     pop(List_copy(inst) , 0)
@@ -40,6 +40,8 @@ List List_copy(List inst);
  * you can call it by using delete(instantiate)
  * */
 void List_delete(List self);
+
+void ListRef_delete(List ref);
 
 /* access functions(macros) */
 int empty(List self);
@@ -100,19 +102,23 @@ unsigned int length(List self);
  * so will the other data types.
  */
 
-#define cons(self , elt) \
+#define push_front(self , elt) \
     _Generic((elt) , \
 /*            Node: _cons(self , newNodeObj(elt) , \
                 getType(elt) , getSize(elt)) , */\
-            default: _cons(self , objArgs(elt)) \
+            default: _push_front(self , objArgs(elt)) \
             )
 
-#define snoc(self ,elt) \
+#define push_back(self ,elt) \
     _Generic((elt) , \
 /*            Node: _snoc(self , newNodeObj(elt) , \
                 getType(elt) , getSize(elt)) , */\
-            default: _snoc(self , objArgs(elt)) \
+            default: _push_back(self , objArgs(elt)) \
             )
+
+List cons(List self , Node inst);
+
+List snoc(List self , Node inst);
 
 List pop(List self , int idx);
 
@@ -121,10 +127,10 @@ List map(List self , void (*fp)(Node node));
 void List_clear(List self);
 
 /* In most case , use macro above */
-List _cons(List self , Object elt ,
+List _push_front(List self , Object elt ,
         const char* type , size_t size);
 
-List _snoc(List self , Object elt ,
+List _push_back(List self , Object elt ,
         const char* type , size_t size);
 
 #endif

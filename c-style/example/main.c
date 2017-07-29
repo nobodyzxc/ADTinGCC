@@ -31,7 +31,7 @@ int main(void){
     int a[10] = {1 , 2 , 3 , 4 , 5};
     char ch = 'c';
     List ls = List(LITN(1) , LITN('b') , ch , "cdef" , a);
-    snoc(ls , ls);
+    push_back(ls , ls);
 
     printf("ls's address is %p\n" , ls);
     map(ls , print);

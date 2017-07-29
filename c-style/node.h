@@ -91,6 +91,7 @@ const char* getType(Node node);
 #define Node_new(elt , next) \
     _Node_new(elt , next , typename(elt) , sizeof(elt))
 
+Node Node_copy(Node inst , Node next);
 
 /* get the element of the node without typecast */
 Object getObj(Node self);

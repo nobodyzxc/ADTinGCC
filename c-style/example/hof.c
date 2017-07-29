@@ -38,14 +38,14 @@ void print_mix(Node node){
 int main(void){
     List li_i = new(List);
     for(int i = 0 ; i < 10 ; i++)
-        cons(li_i , i);
+        push_front(li_i , i);
     map(li_i , print_i);puts("");
     map(li_i , addOne);
     map(li_i , print_i);puts("");
 
     List li_c = List();
     for(char c = 'a' ; c < 'z' ; c++)
-        cons(li_c , c);
+        push_front(li_c , c);
     map(li_c , print_c);puts("");
     map(li_c , toUpper);
     map(li_c , print_c);puts("");

@@ -35,6 +35,17 @@ Node _Node_new(Object elt , Node next ,
     return node;
 }
 
+Node Node_copy(Node inst , Node next){
+    return _Node_new(
+            _newObj(inst->elt ,
+                    inst->eltSize) ,
+            /* newObj is important */
+            next ,
+            inst->eltType ,
+            inst->eltSize
+            );
+}
+
 void Node_clear(Node self){
     free(self->elt);
 }

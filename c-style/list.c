@@ -30,8 +30,8 @@ List cdr(List self){
     List rtn = List_new();
     if(empty(self)) return rtn;
     rtn->len = self->len - 1;
-    rtn->tail = self->tail;
     rtn->head = getNext(self->head);
+    rtn->tail = rtn->head ? self->tail : NULL;
     return rtn;
 }
 
@@ -58,7 +58,7 @@ unsigned int length(List self){
  *
  * */
 
-List _cons(List self , Object elt ,
+List _push_front(List self , Object elt ,
         const char* type , size_t size){
     self->len = self->len + 1;
     self->head = _Node_new(elt , self->head , type , size);
@@ -66,11 +66,27 @@ List _cons(List self , Object elt ,
     return self;
 }
 
-List _snoc(List self , Object elt ,
+List _push_back(List self , Object elt ,
         const char* type , size_t size){
     self->len = self->len + 1;
     *(empty(self) ? &self->tail : getNextPtr(self->tail)) =
         self->tail = _Node_new(elt , NULL , type , size);
+    if(!self->head) self->head = self->tail;
+    return self;
+}
+
+/* will copy a new one and cons it */
+List cons(List self , Node inst){
+    self->len = self->len + 1;
+    self->head = copy(inst , self->head);
+    if(!self->tail) self->tail = self->head;
+    return self;
+}
+
+List snoc(List self , Node inst){
+    self->len = self->len + 1;
+    *(empty(self) ? &self->tail : getNextPtr(self->tail)) =
+        self->tail = copy(inst , NULL);
     if(!self->head) self->head = self->tail;
     return self;
 }
@@ -87,7 +103,8 @@ List pop(List self , int idx){
     (*ppn) = getNext(del);
     if(self->len == 0)
         self->head = self->tail = NULL;
-    free(getObj(del)) , free(del);
+    free(getObj(del));
+    free(del);
     return self;
 }
 
@@ -115,14 +132,15 @@ List List_copy(List inst){
     List copy = List_new();
     Node iter = inst->head;
     while(iter)
-        _snoc(copy ,
-                memcpy(
-                    malloc(getSize(iter)) ,
-                    getObj(iter) ,
-                    getSize(iter)) ,
-                getType(iter) ,
-                getSize(iter)) ,
-        iter = getNext(iter);
+        snoc(copy , iter) , iter = getNext(iter);
+//        _push_back(copy ,
+//                memcpy(
+//                    malloc(getSize(iter)) ,
+//                    getObj(iter) ,
+//                    getSize(iter)) ,
+//                getType(iter) ,
+//                getSize(iter)) ,
+//        iter = getNext(iter);
     return copy;
 }
 

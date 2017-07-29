@@ -9,10 +9,11 @@ typedef void *Object;
 
 #define new(ADT) ADT ## _new()
 
-#define copy(ADT) _Generic((ADT), \
+#define copy(ADT , ...) _Generic((ADT), \
+    Node: Node_copy , \
     List: List_copy \
     /* default: copy  \ */ \
-    )(ADT)
+    )(ADT , ##__VA_ARGS__)
 /* define you own copy */
 
 #define delete(ADT) _Generic((ADT), \
@@ -76,6 +77,13 @@ char _typeisa[25];
             &(e) , \
             sizeof(e) \
             )
+
+#define _newObj(p , size) \
+    memcpy( \
+            malloc(size) , \
+            p , \
+            size \
+          )
 
 /* objArgs :
  * Object obj , const char* type , size_t size
