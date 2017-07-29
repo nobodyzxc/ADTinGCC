@@ -44,9 +44,9 @@ void List_delete(List self);
 /* access functions(macros) */
 int empty(List self);
 /* get first obj without typecast */
-Object car(List self);
+Node car(List self);
 /* get last obj without typecast */
-Object rac(List self);
+Node rac(List self);
 /* get nth obj without typecast */
 Object nth(List self , int idx);
 /* get list without the list's head
@@ -60,11 +60,11 @@ List cdr(List self);
 unsigned int length(List self);
 /* macro:front get first obj with typecast */
 #define front(type , self) \
-    (*(type*) car(self))
+    (*(type*) getObj(car(self)))
 
 /* macro:back get last obj with typecast */
 #define back(type , self) \
-    (*(type*) rac(self))
+    (*(type*) getObj(rac(self)))
 
 /* manipulation prcedure
  *
@@ -101,10 +101,18 @@ unsigned int length(List self);
  */
 
 #define cons(self , elt) \
-    _cons(self , objArgs(elt))
+    _Generic((elt) , \
+/*            Node: _cons(self , newNodeObj(elt) , \
+                getType(elt) , getSize(elt)) , */\
+            default: _cons(self , objArgs(elt)) \
+            )
 
 #define snoc(self ,elt) \
-    _snoc(self , objArgs(elt))
+    _Generic((elt) , \
+/*            Node: _snoc(self , newNodeObj(elt) , \
+                getType(elt) , getSize(elt)) , */\
+            default: _snoc(self , objArgs(elt)) \
+            )
 
 List pop(List self , int idx);
 

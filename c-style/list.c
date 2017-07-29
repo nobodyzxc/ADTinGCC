@@ -16,14 +16,14 @@ int empty(List self){
     return self->head == NULL;
 }
 
-Object car(List self){
+Node car(List self){
 /*    assert(!empty(self) && "calling car on an empty list"); */
-    return getObj(self->head);
+    return self->head;
 }
 
-Object rac(List self){
+Node rac(List self){
 /*    assert(!empty(self) && "calling last on an empty list"); */
-    return getObj(self->tail);
+    return self->tail;
 }
 
 List cdr(List self){
@@ -135,4 +135,8 @@ void List_clear(List self){
 void List_delete(List self){
     List_clear(self);
     free(self);
+}
+
+void ListRef_delete(List ref){
+    free(ref);
 }

@@ -5,6 +5,13 @@
 
 typedef struct Node *Node;
 
+#define newNodeObj(node) \
+    memcpy( \
+            malloc(sizeof(getSize(node))) , \
+            getObj(node) , \
+            sizeof(getSize(node)) \
+            )
+
 /* macro usage:
  *
  * elt : if the element of the node is not an array
