@@ -72,10 +72,6 @@ List List_pop_back(List self){
     assnk(unsigned int , self->len , self->len - 1);
 }
 
-List List_append(List self , List lst){
-
-}
-
 const struct List klass = {
     .len = 0 ,
     .head = NULL ,
@@ -90,7 +86,6 @@ const struct List klass = {
     bindFunc(List , push_back) ,
     bindFunc(List , pop_front) ,
     bindFunc(List , pop_back) ,
-    bindFunc(List , append)
 };
 
 List List_init(List self){

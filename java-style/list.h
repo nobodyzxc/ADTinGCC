@@ -25,7 +25,6 @@ struct List{
     List (*const push_back)(List self , ListElt elt);
     List (*const pop_front)(List self);
     List (*const pop_back)(List self);
-    List (*const append)(List self , List lst);
 };
 
 /* constructor */

@@ -2,6 +2,7 @@
 #include <assert.h>
 
 #define implFunc(ADT , func) (ADT ## _ ## func)
+
 #define bindFunc(ADT , func) \
     .func = implFunc(ADT , func)
 

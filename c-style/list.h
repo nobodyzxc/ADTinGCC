@@ -3,7 +3,7 @@
  * {{{
  * https://gcc.gnu.org/onlinedocs/gcc-5.3.0/gcc/Typeof.html
  * }}}
- * c11(_Generic)
+ * c11(_Generic) , gcc supports c11 after v4.7
  * {{{
  * http://en.cppreference.com/w/c/language/generic
  * }}}
