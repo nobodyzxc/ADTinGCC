@@ -45,18 +45,6 @@ void ListRef_delete(List ref);
 
 /* access functions(macros) */
 int empty(List self);
-/* get first obj without typecast */
-Node car(List self);
-/* get last obj without typecast */
-Node rac(List self);
-/* get nth obj without typecast */
-Object nth(List self , int idx);
-/* get list without the list's head
- * (without allocting new node)
- * but remember to free the list
- * */
-
-List cdr(List self);
 
 /* get length of the list */
 unsigned int length(List self);
@@ -92,39 +80,20 @@ unsigned int length(List self);
  *     but it is confusing that apply arr on [char*] type.
  *
  *     so you should avoid use LIT* on "literal string"
- * */
-
-/* if you cons or snoc a pointer
- * (most object are also pointers) ,
- * it will not malloc a new entity.
  *
- * But if your obj is an array , list will malloc it.
- * so will the other data types.
+ *     if you cons or snoc a pointer
+ *     (most object are also pointers) ,
+ *     it will not malloc a new entity.
+ *
+ *     But if your obj is an array , list will malloc it.
+ *     so will the other data types.
  */
 
 #define push_front(self , elt) \
-    _Generic((elt) , \
-/*            Node: _cons(self , newNodeObj(elt) , \
-                getType(elt) , getSize(elt)) , */\
-            default: _push_front(self , objArgs(elt)) \
-            )
+    _push_front(self , objArgs(elt))
 
 #define push_back(self ,elt) \
-    _Generic((elt) , \
-/*            Node: _snoc(self , newNodeObj(elt) , \
-                getType(elt) , getSize(elt)) , */\
-            default: _push_back(self , objArgs(elt)) \
-            )
-
-List cons(List self , Node inst);
-
-List snoc(List self , Node inst);
-
-List pop(List self , int idx);
-
-List map(List self , void (*fp)(Node node));
-
-void List_clear(List self);
+    _push_back(self , objArgs(elt))
 
 /* In most case , use macro above */
 List _push_front(List self , Object elt ,
@@ -133,4 +102,29 @@ List _push_front(List self , Object elt ,
 List _push_back(List self , Object elt ,
         const char* type , size_t size);
 
+List pop(List self , int idx);
+
+void List_clear(List self);
+
+/* functional functions */
+
+/* get first obj without typecast */
+Node car(List self);
+/* get last obj without typecast */
+Node rac(List self);
+/* get nth obj without typecast */
+Object nth(int idx , List self);
+
+List cons(Node inst , List self);
+
+List snoc(Node inst , List self);
+
+/* alloc a list without new node
+ * use ListRef_delete to free memory */
+
+List cdr(List self);
+
+List map(void (*fp)(Node node) , List self);
+
+Object foldl(void (*fp)(Node node , Object acc) , Object acc , List self);
 #endif

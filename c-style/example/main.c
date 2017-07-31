@@ -34,37 +34,37 @@ int main(void){
     push_back(ls , ls);
 
     printf("ls's address is %p\n" , ls);
-    map(ls , print);
+    map(print , ls);
     printf("ls's len is %d\n" , length(ls));
     puts("\nsnoced self's test");
     List snoced = back(List , ls);
-    map(snoced , print);
+    map(print , snoced);
 
     puts("\npop ls @ -2\n");
     pop(ls , -2);
     puts("ls remap print");
-    map(ls , print);
+    map(print , ls);
     puts("");
     puts("snoced self remap print");
-    map(back(List , ls) , print);
+    map(print , back(List , ls));
 
     puts("\ncopy list test");
     List cp = copy(ls);
-    map(cp , print);
+    map(print , cp);
     printf("cp's len is %d\n" , length(ls));
     puts("\npop ls @ -1");
     pop(ls , -1);
     puts("\napply print on ls");
-    map(ls , print);
+    map(print , ls);
     puts("\napply print on copy");
-    map(cp , print);
+    map(print , cp);
 
     puts("\nclear ls...");
     clear(ls);
     empty(ls) ? puts("ls is empty!") : puts("ls is not empty");
 
     puts("\napply print on copy");
-    map(cp , print);
+    map(print , cp);
     clear(cp);
 
     delete(ls);

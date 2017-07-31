@@ -39,31 +39,31 @@ int main(void){
     List li_i = new(List);
     for(int i = 0 ; i < 10 ; i++)
         push_front(li_i , i);
-    map(li_i , print_i);puts("");
-    map(li_i , addOne);
-    map(li_i , print_i);puts("");
+    map(print_i , li_i);puts("");
+    map(addOne  , li_i);
+    map(print_i , li_i);puts("");
 
     List li_c = List();
     for(char c = 'a' ; c < 'z' ; c++)
         push_front(li_c , c);
-    map(li_c , print_c);puts("");
-    map(li_c , toUpper);
-    map(li_c , print_c);puts("");
+    map(print_c , li_c);puts("");
+    map(toUpper , li_c);
+    map(print_c , li_c);puts("");
 
     List li_s = List("list" , "in" , "c");
-    map(li_s , print_s);puts("");
+    map(print_s , li_s);puts("");
 
     /*literal in int and char should use LIT */
     /* BUT! literal char will store as int ! */
     List li_mix = List(LITN(0) , LITN('1') , "2");
-    map(li_mix , print_mix);puts("");
+    map(print_mix , li_mix);puts("");
 
     char ch = '1';
     List li_expect = List(LITN(0) , LITC('1') , "2");
-    map(li_expect , print_mix);puts("");
+    map(print_mix , li_expect);puts("");
 
     List cdrls = cdrL(li_expect);
-    map(cdrls , print_mix);puts("");
+    map(print_mix , cdrls);puts("");
 
     delete(li_i);
     delete(li_c);

@@ -35,7 +35,7 @@ List cdr(List self){
     return rtn;
 }
 
-Object nth(List self , int idx){
+Object nth(int idx , List self){
     if(idx < 0) idx += self->len;
     assert(idx < self->len);
     assert(self->len != 0);
@@ -44,11 +44,6 @@ Object nth(List self , int idx){
         iter = getNext(iter);
     return iter;
 }
-
-//List append(List self , List tail){
-//    if(empty(tail)) return self;
-//    else return cons(append(cdr(self) , tail) , car(self));
-//}
 
 unsigned int length(List self){
     return self->len;
@@ -76,14 +71,14 @@ List _push_back(List self , Object elt ,
 }
 
 /* will copy a new one and cons it */
-List cons(List self , Node inst){
+List cons(Node inst , List self){
     self->len = self->len + 1;
     self->head = copy(inst , self->head);
     if(!self->tail) self->tail = self->head;
     return self;
 }
 
-List snoc(List self , Node inst){
+List snoc(Node inst , List self){
     self->len = self->len + 1;
     *(empty(self) ? &self->tail : getNextPtr(self->tail)) =
         self->tail = copy(inst , NULL);
@@ -108,10 +103,16 @@ List pop(List self , int idx){
     return self;
 }
 
-List map(List self , void (*fp)(Node node)){
+List map(void (*fp)(Node node) , List self){
     Node iter = self->head;
     while(iter) fp(iter) , iter = getNext(iter);
     return self;
+}
+
+Object foldl(void (*fp)(Node node , Object acc) , Object acc , List self){
+    Node iter = self->head;
+    while(iter) fp(iter , acc) , iter = getNext(iter);
+    return acc;
 }
 
 const struct List klass = {
@@ -132,15 +133,7 @@ List List_copy(List inst){
     List copy = List_new();
     Node iter = inst->head;
     while(iter)
-        snoc(copy , iter) , iter = getNext(iter);
-//        _push_back(copy ,
-//                memcpy(
-//                    malloc(getSize(iter)) ,
-//                    getObj(iter) ,
-//                    getSize(iter)) ,
-//                getType(iter) ,
-//                getSize(iter)) ,
-//        iter = getNext(iter);
+        snoc(iter , copy) , iter = getNext(iter);
     return copy;
 }
 
