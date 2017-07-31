@@ -65,11 +65,6 @@ int main(void){
     List cdrls = cdrL(li_expect);
     map(print_mix , cdrls);puts("");
 
-    delete(li_i);
-    delete(li_c);
-    delete(li_s);
-    delete(li_mix);
-    delete(li_expect);
-    delete(cdrls);
+    delete(li_i , li_c , li_s , li_mix , li_expect , cdrls);
     return 0;
 }

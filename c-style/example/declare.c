@@ -10,7 +10,8 @@ int main(void){
     delete(ls);
     ls = List("I'm a list's head member obj" ,
              "I'm second!" , "I'm third");
-    // syntax sugar of cons(cons(cons ...cons(new(List) , elt) , elt) , elt)
+    // syntax sugar of
+    // push_back(push_back(push_back ...push_back(new(List) , elt) , elt) , elt)
     // you can also make a empty list with List()
     delete(ls);
     return 0;

@@ -16,7 +16,12 @@ typedef void *Object;
     )(ADT , ##__VA_ARGS__)
 /* define you own copy */
 
-#define delete(ADT) _Generic((ADT), \
+/* va args delete */
+#define delete(...) \
+    MAP_LIST(_delete , __VA_ARGS__)
+
+/* single arg delete */
+#define _delete(ADT) _Generic((ADT), \
     List: List_delete \
     /* default: delete  \ */ \
     )(ADT)

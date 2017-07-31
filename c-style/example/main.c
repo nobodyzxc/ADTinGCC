@@ -67,7 +67,7 @@ int main(void){
     map(print , cp);
     clear(cp);
 
-    delete(ls);
+    delete(ls , snoced , cp);
     puts("\nUB after delete\n");
     empty(ls) ? puts("ls is empty!") : puts("ls is not empty");
     printf("ls's len is %d\n" , length(ls));

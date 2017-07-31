@@ -9,7 +9,10 @@ List rec_appened(List self , List app){
     if(empty(self)) return copy(app);
     else{ /* O(N) */
         List cdrRef = cdr(self);
-        List nth_appn = cons(car(self) , rec_appened(cdrRef , app));
+
+        List nth_appn =
+            cons(car(self) , rec_appened(cdrRef , app));
+
         ListRef_delete(cdrRef);
         return nth_appn;
     }
@@ -40,10 +43,6 @@ int main(void){
     map(print_s , nth_app) , puts("");
     map(print_s , fold_app) , puts("");
 
-    delete(self);
-    delete(appd);
-    delete(rec_app);
-    delete(nth_app);
-    delete(fold_app);
+    delete(self , appd , rec_app , nth_app , fold_app);
     return 0;
 }

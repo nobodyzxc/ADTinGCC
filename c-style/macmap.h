@@ -39,19 +39,21 @@
 #define EVAL4(...) EVAL3(EVAL3(EVAL3(__VA_ARGS__)))
 #define EVAL(...)  EVAL4(EVAL4(EVAL4(__VA_ARGS__)))
 
-#define MAP_END(...) CAR(__VA_ARGS__) /* init cond */
+/* MAP_END(...) MODIFIED */
 #define MAP_OUT
 #define MAP_COMMA ,
 
 #define MAP_GET_END2() 0, MAP_END
 #define MAP_GET_END1(...) MAP_GET_END2
-#define MAP_GET_END(...) MAP_GET_END1
+#define MAP_GET_END(...)  MAP_GET_END1
 #define MAP_NEXT0(test, next, ...) next MAP_OUT
 #define MAP_NEXT1(test, next) MAP_NEXT0(test, next, 0)
 #define MAP_NEXT(test, next)  MAP_NEXT1(MAP_GET_END test, next)
 
-/* {{{ revised to onion-like expansion
+/* {{{ modified to onion-like expansion
  * */
+
+#define MAP_END(...) CAR(__VA_ARGS__) /* init cond */
 
 #define MAP0(initCond , f, unpak , e, peek, ...) \
     f(MAP_NEXT(peek, MAP1)(initCond , f, unpak , peek, __VA_ARGS__) , unpak(e))
@@ -67,8 +69,9 @@
     ASSOCMAP(initCond , f , unpak , SNOCEND(__VA_ARGS__))
 
 /* why the def does not work? */
-//#define MAP(...)  \
+/* #define MAP(...)  \
     ASSOCMAP(SNOCEND(__VA_ARGS__))
+*/
 
 #define ASSOCMAP(initCond , f , ...) \
     EVAL(MAP1(initCond , f, __VA_ARGS__ , ()()(), ()()(), ()()(), 0))
@@ -76,6 +79,27 @@
 /*
  * modified by nobodyzxc :)
  }}} */
+
+#define MAP_LIST_END(...)
+
+#define MAP_GET_LIST_END2() 0, MAP_LIST_END
+#define MAP_GET_LIST_END1(...) MAP_GET_LIST_END2
+#define MAP_GET_LIST_END(...)  MAP_GET_LIST_END1
+
+#define MAP_LIST_NEXT1(test, next) \
+    MAP_NEXT0(test, MAP_COMMA next, 0)
+
+#define MAP_LIST_NEXT(test, next) \
+    MAP_LIST_NEXT1(MAP_GET_LIST_END test, next)
+
+#define MAP_LIST0(f, x, peek, ...) \
+    f(x) MAP_LIST_NEXT(peek, MAP_LIST1)(f, peek, __VA_ARGS__)
+
+#define MAP_LIST1(f, x, peek, ...) \
+    f(x) MAP_LIST_NEXT(peek, MAP_LIST0)(f, peek, __VA_ARGS__)
+
+#define MAP_LIST(f, ...) \
+    EVAL(MAP_LIST1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
 
 #endif
 
