@@ -50,7 +50,6 @@ unsigned int length(List self){
 }
 
 /* manipulation prcedure
- *
  * */
 
 List _push_front(List self , Object elt ,
@@ -109,7 +108,8 @@ List map(void (*fp)(Node node) , List self){
     return self;
 }
 
-Object foldl(void (*fp)(Node node , Object acc) , Object acc , List self){
+Object foldl(void (*fp)(Node node , Object acc) ,
+        Object acc , List self){
     Node iter = self->head;
     while(iter) fp(iter , acc) , iter = getNext(iter);
     return acc;

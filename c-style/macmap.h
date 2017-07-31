@@ -1,5 +1,4 @@
-/*
- * Copyright (C) 2012 William Swanson
+/* {{{ Copyright (C) 2012 William Swanson
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -24,8 +23,11 @@
  * their institutions shall not be used in advertising or otherwise to
  * promote the sale, use or other dealings in this Software without
  * prior written authorization from the authors.
- */
-/* clone from: https://github.com/swansontec/map-macro */
+ }}} */
+
+/* {{{ clone from:
+ * https://github.com/swansontec/map-macro
+ }}} */
 
 #ifndef MAP_H_INCLUDED
 #define MAP_H_INCLUDED
@@ -48,9 +50,7 @@
 #define MAP_NEXT1(test, next) MAP_NEXT0(test, next, 0)
 #define MAP_NEXT(test, next)  MAP_NEXT1(MAP_GET_END test, next)
 
-/* revised to onion-like expansion
- *
- * begin{
+/* {{{ revised to onion-like expansion
  * */
 
 #define MAP0(initCond , f, unpak , e, peek, ...) \
@@ -74,6 +74,10 @@
     EVAL(MAP1(initCond , f, __VA_ARGS__ , ()()(), ()()(), ()()(), 0))
 
 /*
- * }end : modified by nobodyzxc :)
- * */
+ * modified by nobodyzxc :)
+ }}} */
+
 #endif
+
+/* {{{ vim:fdm=marker:ts=2
+ * }}} */

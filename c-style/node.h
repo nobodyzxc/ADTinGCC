@@ -48,8 +48,7 @@ typedef struct Node *Node;
 
 const char* getType(Node node);
 
-/* some macros to check type of elt in node
- * */
+/* {{{ some macros to check type of elt in node */
 
 #define isBool(node) \
     ((int)strstr(getType(node) , "bool"))
@@ -83,6 +82,8 @@ const char* getType(Node node);
 #define isArray(node) \
     (NULL != strstr(getType(node) , "[]"))
 
+/* }}} */
+
 /* macro usage:
  *
  * Node_new: get a new initialized node
@@ -109,3 +110,6 @@ Node _Node_new(Object elt , Node next ,
         const char* type , size_t size);
 
 #endif
+
+/* {{{ vim:fdm=marker:ts=2
+ * }}} */

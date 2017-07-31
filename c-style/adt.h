@@ -31,11 +31,11 @@ typedef void *Object;
 
 /* accept var only */
 #define isVarAnArray(x) ((void*)(long)&(x) == (void*)(long)(x))
+
 /* accept var only */
 /* pay attention on char literal ,
  * its type is int in C
  * */
-
 #define typename(x) _Generic((x), \
         _Bool: "bool" , \
         _Bool*: (isVarAnArray(x) ? "bool[]" : "bool*") , \

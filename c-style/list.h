@@ -1,17 +1,13 @@
-/* compiler requirements
- *
+/* {{{ compiler requirements
  * gnu(typeof)
+ * {{{
  * https://gcc.gnu.org/onlinedocs/gcc-5.3.0/gcc/Typeof.html
- *
+ * }}}
  * c11(_Generic)
+ * {{{
  * http://en.cppreference.com/w/c/language/generic
- *
- * Recursive macro
- * https://github.com/swansontec/map-macro
- *
- * By the way , C has auto , too!
- * __auto_type a = 1; (GNU C)
- * */
+ * }}}
+ }}} */
 
 #ifndef LIST_H
 #define LIST_H
@@ -21,33 +17,41 @@
 
 typedef struct List *List;
 
-/* constructor
- * you can call it by using new(List)
- * */
+/* {{{ constructor
+ }}} */
 
+/* you can call it by using new(List) */
 List List_new();
 
+/* you can call it by using copy(inst) */
 List List_copy(List inst);
 
 /* powerful(?) List constructor */
+/* ex: List("list" , LITN(1)) */
 #define List(...) \
     MAP(List_new() , _push_front , objArgs , __VA_ARGS__)
 
 #define cdrL(inst) \
     pop(List_copy(inst) , 0)
 
-/* destructor
- * you can call it by using delete(instantiate)
- * */
+
+/* {{{ destructor
+ }}} */
+
+/* you can call it by using delete(inst) */
 void List_delete(List self);
 
+/* remember call this when you use cdr */
 void ListRef_delete(List ref);
 
-/* access functions(macros) */
+/* {{{ access functions(macros)
+ }}} */
+
 int empty(List self);
 
 /* get length of the list */
 unsigned int length(List self);
+
 /* macro:front get first obj with typecast */
 #define front(type , self) \
     (*(type*) getObj(car(self)))
@@ -56,8 +60,10 @@ unsigned int length(List self);
 #define back(type , self) \
     (*(type*) getObj(rac(self)))
 
-/* manipulation prcedure
- *
+/* {{{ manipulation prcedure
+ }}} */
+
+/* {{{ hints for add new elt to list
  *     if you want to cons or snoc a literal value ,
  *     you must use LIT* macro
  *     to assign literal (char , int type) to variable.
@@ -87,7 +93,7 @@ unsigned int length(List self);
  *
  *     But if your obj is an array , list will malloc it.
  *     so will the other data types.
- */
+ }}} */
 
 #define push_front(self , elt) \
     _push_front(self , objArgs(elt))
@@ -95,36 +101,46 @@ unsigned int length(List self);
 #define push_back(self ,elt) \
     _push_back(self , objArgs(elt))
 
+/* {{{ detailed push funtions */
 /* In most case , use macro above */
 List _push_front(List self , Object elt ,
         const char* type , size_t size);
 
 List _push_back(List self , Object elt ,
         const char* type , size_t size);
+/* }}} */
 
 List pop(List self , int idx);
 
+/* you can call it by using clear(List) */
 void List_clear(List self);
 
-/* functional functions */
+/* {{{ functional functions
+ * enjoy(?) it. have fun! XD
+ }}} */
 
+#define null(inst) empty(inst)
 /* get first obj without typecast */
 Node car(List self);
 /* get last obj without typecast */
 Node rac(List self);
 /* get nth obj without typecast */
 Object nth(int idx , List self);
-
+/* copy node(inst) and cons it */
 List cons(Node inst , List self);
-
+/* copy node(inst) and snoc it */
 List snoc(Node inst , List self);
 
-/* alloc a list without new node
- * use ListRef_delete to free memory */
-
+/* cdr alloc a list only (without new node) */
+/* use ListRef_delete to free the list that cdr alloced */
 List cdr(List self);
 
 List map(void (*fp)(Node node) , List self);
 
-Object foldl(void (*fp)(Node node , Object acc) , Object acc , List self);
+Object foldl(void (*fp)(Node node , Object acc) ,
+        Object acc , List self);
+
 #endif
+
+/* {{{ vim:fdm=marker:ts=2
+ * }}} */
