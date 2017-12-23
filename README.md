@@ -10,7 +10,7 @@
 
     java-like : Binding methods under objects.
 
-                Every object declared is null objects , you need **new** an instantiate for it.
+                Every object declared is null object , you need **new** an instantiate for it.
 
 ref:<br>
      [A Discipline of Data Abstraction using ANSI C](https://classes.soe.ucsc.edu/cmps201/Fall98/Handouts/C_hints/adt-new.ps)<br>
