@@ -15,7 +15,7 @@ Node getNext(Node self){
     return self->next;
 }
 
-Node *getNextPtr(Node next){
+Node *getPtrOfNext(Node next){
     return &(next->next);
 }
 

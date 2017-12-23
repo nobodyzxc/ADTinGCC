@@ -1,10 +1,16 @@
-TODO:
+# Abstract Data Type in GCC
 
-    c-style(About complete): let cdr function free ListRef automatically? syntax salt? sugar?
+    oo-c : OOP in C , without binding methods under objects. bottleneck : GC
 
-    cpp-style(Embryonic): it needs better constructor.
+    cpp-like : Binding methods under objects.
 
-    java-style(Embryonic): needs better constructor , too.
+               Need init objects if you declare the structure instead of the pointer.
+
+               Or you can declare a pointer and **new** an instantiate for it.
+
+    java-like : Binding methods under objects.
+
+                Every object declared is null objects , you need **new** an instantiate for it.
 
 ref:<br>
      [A Discipline of Data Abstraction using ANSI C](https://classes.soe.ucsc.edu/cmps201/Fall98/Handouts/C_hints/adt-new.ps)<br>

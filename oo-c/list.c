@@ -1,10 +1,6 @@
 #include "list.h"
 #include <assert.h>
 
-#define implFunc(ADT , func) (ADT ## _ ## func)
-#define bindFunc(ADT , func) \
-    .func = implFunc(ADT , func)
-
 struct List{
     unsigned int len;
     Node head , tail;
@@ -17,12 +13,12 @@ int empty(List self){
 }
 
 Node car(List self){
-/*    assert(!empty(self) && "calling car on an empty list"); */
+    assert(!empty(self) && "calling car on an empty list");
     return self->head;
 }
 
 Node rac(List self){
-/*    assert(!empty(self) && "calling last on an empty list"); */
+    assert(!empty(self) && "calling last on an empty list");
     return self->tail;
 }
 
@@ -63,7 +59,7 @@ List _push_front(List self , Object elt ,
 List _push_back(List self , Object elt ,
         const char* type , size_t size){
     self->len = self->len + 1;
-    *(empty(self) ? &self->tail : getNextPtr(self->tail)) =
+    *(empty(self) ? &self->tail : getPtrOfNext(self->tail)) =
         self->tail = _Node_new(elt , NULL , type , size);
     if(!self->head) self->head = self->tail;
     return self;
@@ -79,7 +75,7 @@ List cons(Node inst , List self){
 
 List snoc(Node inst , List self){
     self->len = self->len + 1;
-    *(empty(self) ? &self->tail : getNextPtr(self->tail)) =
+    *(empty(self) ? &self->tail : getPtrOfNext(self->tail)) =
         self->tail = copy(inst , NULL);
     if(!self->head) self->head = self->tail;
     return self;
@@ -92,7 +88,7 @@ List pop(List self , int idx){
     self->len -= 1;
     Node *ppn = &self->head;
     while(idx--)
-        ppn = getNextPtr(*ppn);
+        ppn = getPtrOfNext(*ppn);
     Node del = (*ppn);
     (*ppn) = getNext(del);
     if(self->len == 0)

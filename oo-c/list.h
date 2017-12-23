@@ -112,6 +112,9 @@ List _push_back(List self , Object elt ,
 
 List pop(List self , int idx);
 
+#define foreach(iter , iterable) \
+    for(iter = car(iterable) ; iter ; iter = getNext(iter))
+
 /* you can call it by using clear(List) */
 void List_clear(List self);
 

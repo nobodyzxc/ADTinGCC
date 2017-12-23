@@ -101,7 +101,7 @@ Object getObj(Node self);
 Node getNext(Node self);
 
 /* get address of node's member pointer stored next node */
-Node* getNextPtr(Node self);
+Node* getPtrOfNext(Node self);
 
 /* get size of node's elt */
 size_t getSize(Node self);
